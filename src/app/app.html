@@ -10,6 +10,9 @@
       <ion-list-header>Navigate</ion-list-header>
       <button menuClose ion-item (click)="goToHome()">Home</button>
       <button menuClose ion-item (click)="goToTournaments()">Find a Tournament</button>
+      <ion-list-header>Favorites</ion-list-header>
+      <button menuClose ion-item *ngFor="let item of favoriteTeams" (click)="goToTeam(item)">
+        {{item.team.name}}</button>
     </ion-list>
   </ion-content>
 

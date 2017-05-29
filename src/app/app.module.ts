@@ -3,13 +3,15 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { MyTeamsPage, TournamentsPage, GamePage, TeamDetailsPage, TeamsPage, TeamHomePage, StandingsPage } from '../pages/pages';
+import { MyTeamsPage, TournamentsPage, GamePage, TeamDetailsPage, TeamsPage, TeamHomePage, StandingsPage, MapPage } from '../pages/pages';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HttpModule } from '@angular/http';
-import { EliteApi } from '../shared/shared'
+import { AgmCoreModule } from 'angular2-google-maps/core';
+import { IonicStorageModule } from '@ionic/storage';
+import { EliteApi, UserSettings } from '../shared/shared'
 
 @NgModule({
   declarations: [
@@ -20,12 +22,20 @@ import { EliteApi } from '../shared/shared'
     TeamDetailsPage, 
     TeamsPage,
     TeamHomePage,
-    StandingsPage
+    StandingsPage,
+    MapPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
+    HttpModule,
+    IonicStorageModule.forRoot({
+      name: '__elitedb',
+         driverOrder: ['sqlite', 'websql', 'indexeddb']
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDgu3eWCRcEVcvdK5bjoZxY7_T7-0WtFI8'
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -36,10 +46,12 @@ import { EliteApi } from '../shared/shared'
     TeamDetailsPage, 
     TeamsPage,
     TeamHomePage,
-    StandingsPage
+    StandingsPage,
+    MapPage
   ],
   providers: [
     EliteApi,
+    UserSettings,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

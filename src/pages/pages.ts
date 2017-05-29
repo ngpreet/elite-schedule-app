@@ -5,3 +5,4 @@ export * from './team-details/team-details';
 export * from './tournaments/tournaments';
 export * from './team-home/team-home';
 export * from './standings/standings';
+export * from './map/map';

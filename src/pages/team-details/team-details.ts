@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import { GamePage } from '../pages'
-import { EliteApi } from '../../shared/shared';
+import { EliteApi, UserSettings } from '../../shared/shared';
 
 @IonicPage()
 @Component({
@@ -12,13 +13,21 @@ import { EliteApi } from '../../shared/shared';
   templateUrl: 'team-details.html',
 })
 export class TeamDetailsPage {
+  isFollowing = false;
+  useDateFilter = false;
+  dateFilter: any;
   games: any[];
+  allGames: any[];
   team: any;
+  teamStanding: any;
   private tournamentData: any;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public eliteApi: EliteApi) {
+    public eliteApi: EliteApi,
+    public userSettings: UserSettings,
+    public alertController: AlertController,
+    public toastController: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -42,6 +51,10 @@ export class TeamDetailsPage {
         };
       })
       .value();
+
+    this.allGames = this.games;
+    this.teamStanding = _.find(this.tournamentData.standings, { 'teamId': this.team.id });
+    this.userSettings.isFavoriteTeam(this.team.id).then(value => this.isFollowing = value);
   }
 
   getScoreDisplay(isTeam1, team1Score, team2Score) {
@@ -61,4 +74,56 @@ export class TeamDetailsPage {
     this.navCtrl.parent.parent.push(GamePage, sourceGame);
   }
 
+  dateChanged() {
+    if (this.useDateFilter) {
+      this.games = _.filter(this.allGames, g => moment(g.time).isSame(this.dateFilter, 'day'));
+    }
+    else {
+      this.games = this.allGames;
+    }
+  }
+
+  getScoreBadge(game) {
+    return game.scoreDisplay ? game.scoreDisplay[0] : '';
+  }
+
+  getScoreBadgeClass(game) {
+    return game.scoreDisplay.indexOf('W:') === 0 ? 'primary' : 'danger';
+  }
+
+  toggleFollow() {
+    if (this.isFollowing) {
+      let confirm = this.alertController.create({
+        title: 'Unfollow?',
+        message: 'Are you sure you want to unfollow?',
+        buttons: [{
+          text: 'Yes',
+          handler: () => {
+            this.isFollowing = false;
+            this.userSettings.unfavoriteTeam(this.team);
+            let toast = this.toastController.create({
+              message: 'You have unfollowed this team.',
+              duration: 2000,
+              position: 'bottom'
+            });
+            toast.present();
+          }
+        }, {
+          text: 'No'
+        }]
+      });
+      confirm.present();
+    }
+    else {
+      this.isFollowing = true;
+      this.userSettings.favoriteTeam(this.team, this.tournamentData.tournament.id, this.tournamentData.tournament.name);
+    }
+  }
+
+  refreshAll(refresher){
+    this.eliteApi.refreshCurrentTournament(this.tournamentData.tournament.id).subscribe( ()=> {
+      refresher.complete();
+      this.ionViewDidLoad();
+    });
+  }
 }
