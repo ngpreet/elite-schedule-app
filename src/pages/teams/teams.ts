@@ -13,10 +13,10 @@ export class TeamsPage {
 
   queryText: string;
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public eliteApi: EliteApi,
-    public loadingController: LoadingController) {
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private eliteApi: EliteApi,
+    private loadingController: LoadingController) {
   }
 
   private allTeams: any;

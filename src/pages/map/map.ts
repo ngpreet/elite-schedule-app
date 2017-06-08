@@ -13,10 +13,10 @@ export class MapPage {
 
   map: any;
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public eliteApi: EliteApi,
-    public toastController: ToastController) {
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private eliteApi: EliteApi,
+    private toastController: ToastController) {
   }
 
   ionViewDidLoad() {

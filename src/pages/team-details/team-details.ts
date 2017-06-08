@@ -22,12 +22,12 @@ export class TeamDetailsPage {
   teamStanding: any;
   private tournamentData: any;
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public eliteApi: EliteApi,
-    public userSettings: UserSettings,
-    public alertController: AlertController,
-    public toastController: ToastController) {
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private eliteApi: EliteApi,
+    private userSettings: UserSettings,
+    private alertController: AlertController,
+    private toastController: ToastController) {
   }
 
   ionViewDidLoad() {

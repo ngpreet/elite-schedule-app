@@ -13,10 +13,10 @@ export class TournamentsPage {
 
   tournaments: any;
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public eliteApi: EliteApi,
-    public loadingController: LoadingController) {
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private eliteApi: EliteApi,
+    private loadingController: LoadingController) {
   }
 
   itemTapped($event, tournament) {

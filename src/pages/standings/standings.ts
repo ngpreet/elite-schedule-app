@@ -16,9 +16,9 @@ export class StandingsPage {
   allStandings: any;
   divisionFilter = 'division';
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public eliteApi: EliteApi) {
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private eliteApi: EliteApi) {
   }
 
   ionViewDidLoad() {

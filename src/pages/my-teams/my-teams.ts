@@ -10,11 +10,11 @@ import { EliteApi, UserSettings } from '../../shared/shared';
 })
 export class MyTeamsPage {
 
-  constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    public loadingController: LoadingController,
-    public eliteApi: EliteApi,
-    public userSettings: UserSettings) {
+  constructor(private navCtrl: NavController,
+    private navParams: NavParams,
+    private loadingController: LoadingController,
+    private eliteApi: EliteApi,
+    private userSettings: UserSettings) {
   }
 
   favorites = [];
